@@ -3,16 +3,16 @@
     <div class="layoutContainer_header">
       {{ props.header }}
     </div>
+    <div class="layoutContainer_headerBar">
+      <HeaderBar />
+    </div>
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineExpose, defineComponent } from "vue";
-
-defineComponent({
-  name: "Layout",
-});
+import { defineProps, defineExpose } from "vue";
+import HeaderBar from "./HeaderBar.vue";
 
 interface IProps {
   header: string;
@@ -25,6 +25,7 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@import "../styles/base/colors.scss";
 .layoutContainer {
   display: flex;
   flex-direction: column;
@@ -32,8 +33,10 @@ defineExpose({
   margin: 0 auto;
 
   & .layoutContainer_header {
-    border: 2px solid gray;
+    border: 2px solid var(--lightgray);
+    padding: 1rem;
     font-size: var(--h2);
+    background: var(--lightgray);
   }
 }
 </style>
