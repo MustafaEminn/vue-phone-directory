@@ -3,3 +3,46 @@
 * {
   font-family: "Inter", sans-serif;
 }
+
+:root {
+  --h1: 2.2rem;
+  --h2: 2rem;
+  --h3: 1.8rem;
+  --h4: 1.6rem;
+  --h5: 1.4rem;
+  --h6: 1.2rem;
+  --p: 1rem;
+  --span: 1rem;
+}
+
+h1 {
+  font-size: var(--h1);
+}
+
+h2 {
+  font-size: var(--h2);
+}
+
+h3 {
+  font-size: var(--h3);
+}
+
+h4 {
+  font-size: var(--h4);
+}
+
+h5 {
+  font-size: var(--h5);
+}
+
+h6 {
+  font-size: var(--h6);
+}
+
+p {
+  font-size: var(--p);
+}
+
+span {
+  font-size: var(--span);
+}
