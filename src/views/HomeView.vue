@@ -1,5 +1,5 @@
 <template>
-  <div class="homeContainer"></div>
+  <Layout header="Directory"></Layout>
 </template>
 
 <style lang="scss">
@@ -9,4 +9,6 @@
 }
 </style>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Layout from "@/components/Layout.vue";
+</script>
