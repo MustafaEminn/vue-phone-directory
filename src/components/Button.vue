@@ -9,17 +9,34 @@
           buttonContainer_buttonPrimary: props.type === 'primary',
           buttonContainer_buttonError: props.type === 'error',
           buttonContainer_buttonSuccess: props.type === 'success',
+          buttonContainer_buttonCircleBorder: props.circleBorder,
+          buttonContainer_buttonNoBorder: !props.border,
         })
       "
-      :disabled="props.disabled"
+      :disabled="props.disabled || props.loading"
+      @click="props.onClick"
     >
       <div
+        v-if="!props.loading"
         :class="classNames({
             buttonContainer_buttonIcon: (this as any).$slots.icon,
             buttonContainer_buttonIconRightSpace: (this as any).$slots.default,
       })"
       >
         <slot name="icon" />
+      </div>
+      <div
+        v-else
+        class="buttonContainer_buttonIcon"
+        :class="classNames({
+             buttonContainer_buttonIconRightSpace: (this as any).$slots.default,
+      })"
+      >
+        <circle-spin
+          :type="
+            props.type === 'default' || !props.type ? 'primary' : 'default'
+          "
+        />
       </div>
       <slot />
     </button>
@@ -31,6 +48,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.1s ease-in-out;
 
   & .buttonContainer_button {
     display: flex;
@@ -59,9 +77,7 @@
     }
 
     & .buttonContainer_buttonIconRightSpace {
-      & svg {
-        padding: 0 0.5rem 0 0;
-      }
+      padding: 0 0.5rem 0 0;
     }
   }
 
@@ -100,17 +116,29 @@
       opacity: 0.8;
     }
   }
+
+  & .buttonContainer_buttonCircleBorder {
+    border-radius: 50%;
+  }
+
+  & .buttonContainer_buttonNoBorder {
+    border: none !important;
+  }
 }
 </style>
 
 <script setup lang="ts">
 import { defineProps, defineExpose } from "vue";
 import classNames from "classnames";
+import CircleSpin from "./CircleSpin.vue";
 
 interface IButtonProps {
   type?: "primary" | "error" | "success" | "default";
   loading?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
+  circleBorder?: boolean;
+  border?: boolean;
 }
 
 const props = defineProps<IButtonProps>();
