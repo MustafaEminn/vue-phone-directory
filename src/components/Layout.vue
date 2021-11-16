@@ -1,10 +1,10 @@
 <template>
   <div class="layoutContainer">
     <div class="layoutContainer_header">
-      {{ props.header }}
+      {{ header }}
     </div>
     <div class="layoutContainer_headerBar">
-      <HeaderBar />
+      <HeaderBar :show-back-button="showBackButton" />
     </div>
     <slot />
   </div>
@@ -16,6 +16,7 @@ import HeaderBar from "./HeaderBar.vue";
 
 interface IProps {
   header: string;
+  showBackButton?: boolean;
 }
 const props = defineProps<IProps>();
 
