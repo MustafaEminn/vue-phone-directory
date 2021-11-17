@@ -128,7 +128,7 @@
 </style>
 
 <script setup lang="ts">
-import { defineProps, defineExpose } from "vue";
+import { defineProps } from "vue";
 import classNames from "classnames";
 import CircleSpin from "./CircleSpin.vue";
 
@@ -142,6 +142,4 @@ interface IButtonProps {
 }
 
 const props = defineProps<IButtonProps>();
-
-defineExpose({ props, classNames });
 </script>
