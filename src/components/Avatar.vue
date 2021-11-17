@@ -1,5 +1,12 @@
 <template>
-  <div class="avatarContainer">
+  <div
+    class="avatarContainer"
+    :class="
+      classNames({
+        avatarContainerLarge: size === 'large',
+      })
+    "
+  >
     <div class="avatarContainer_firstLetter">
       {{ avatarText[0] }}
     </div>
@@ -26,22 +33,35 @@
   & .avatarContainer_secondLetter {
     font-size: var(--h5);
   }
+
+  &.avatarContainerLarge {
+    height: 5rem;
+    width: 5rem;
+    & .avatarContainer_firstLetter {
+      font-size: var(--h4);
+    }
+    & .avatarContainer_secondLetter {
+      font-size: var(--h4);
+    }
+  }
 }
 </style>
 
 <script lang="ts" setup>
-import { defineProps, onMounted, ref } from "vue";
+import { defineProps, onBeforeMount, ref } from "vue";
+import classNames from "classnames";
 
 interface IAvatarProps {
   firstName: string;
   lastName: string;
+  size?: "default" | "large";
 }
 
 const props = defineProps<IAvatarProps>();
 
 const avatarText = ref<string>("");
 
-onMounted(() => {
+onBeforeMount(() => {
   avatarText.value = `${props.firstName.charAt(0)}${props.lastName.charAt(
     0
   )}`.toUpperCase();
