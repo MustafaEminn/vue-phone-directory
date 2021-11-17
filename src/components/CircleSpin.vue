@@ -3,10 +3,10 @@
     class="circleSpin"
     :class="
       classNames({
-        circleSpin_primary: props.type === 'primary',
-        circleSpin_error: props.type === 'error',
-        circleSpin_success: props.type === 'success',
-        circleSpin_default: props.type === 'default' || !props.type,
+        circleSpin_primary: type === 'primary',
+        circleSpin_error: type === 'error',
+        circleSpin_success: type === 'success',
+        circleSpin_default: type === 'default' || !type,
       })
     "
   ></div>
@@ -54,7 +54,7 @@
 </style>
 
 <script setup lang="ts">
-import { defineExpose, defineProps } from "vue";
+import { defineProps } from "vue";
 import classNames from "classnames";
 
 interface ICircleSpin {
@@ -62,6 +62,4 @@ interface ICircleSpin {
 }
 
 const props = defineProps<ICircleSpin>();
-
-defineExpose({ props, classNames });
 </script>
