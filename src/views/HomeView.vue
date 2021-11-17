@@ -7,72 +7,81 @@
     >
       <Collapse :title="letter.toUpperCase()">
         <div class="homeContacts_cardsContainer">
-          <Card
-            :full-width="true"
-            v-for="(contact, index) in getContactsStartsWith(letter)"
+          <router-link
             class="homeContacts_card"
+            v-for="(contact, index) in getContactsStartsWith(letter)"
             :key="index"
+            :to="
+              '/' +
+              slug(`${contact.firstName}${contact.lastName}`) +
+              '/' +
+              contact.id
+            "
           >
-            <div class="homeContacts_cardContainer">
-              <div class="homeContacts_cardContainerLeft">
-                <div class="homeContacts_cardContainerHeader">
-                  <div class="homeContacts_cardContainerAvatar">
-                    <Avatar
-                      :first-name="contact.firstName"
-                      :last-name="contact.lastName"
-                    />
+            <Card :full-width="true">
+              <div class="homeContacts_cardContainer">
+                <div class="homeContacts_cardContainerLeft">
+                  <div class="homeContacts_cardContainerHeader">
+                    <div class="homeContacts_cardContainerAvatar">
+                      <Avatar
+                        :first-name="contact.firstName"
+                        :last-name="contact.lastName"
+                      />
+                    </div>
+                    <div class="homeContacts_cardContainerName">
+                      {{ contact.firstName }} {{ contact.lastName }}
+                    </div>
                   </div>
-                  <div class="homeContacts_cardContainerName">
-                    {{ contact.firstName }} {{ contact.lastName }}
+
+                  <div class="homeContacts_cardContainerDetails">
+                    <div
+                      class="homeContacts_cardContainerDetails_detailContainer"
+                    >
+                      <div
+                        class="
+                          homeContacts_cardContainerDetails_detailContainerPrefix
+                        "
+                      >
+                        Phone:
+                      </div>
+                      <div
+                        class="
+                          homeContacts_cardContainerDetails_detailContainerDetail
+                        "
+                      >
+                        {{ contact.phoneNumber }}
+                      </div>
+                    </div>
+                    <div
+                      v-show="contact.email"
+                      class="homeContacts_cardContainerDetails_detailContainer"
+                    >
+                      <div
+                        class="
+                          homeContacts_cardContainerDetails_detailContainerPrefix
+                        "
+                      >
+                        Email:
+                      </div>
+                      <div
+                        class="
+                          homeContacts_cardContainerDetails_detailContainerDetail
+                        "
+                      >
+                        {{ contact.email }}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="homeContacts_cardContainerDetails">
-                  <div
-                    class="homeContacts_cardContainerDetails_detailContainer"
-                  >
-                    <div
-                      class="
-                        homeContacts_cardContainerDetails_detailContainerPrefix
-                      "
-                    >
-                      Phone:
-                    </div>
-                    <div
-                      class="
-                        homeContacts_cardContainerDetails_detailContainerDetail
-                      "
-                    >
-                      {{ contact.phoneNumber }}
-                    </div>
-                  </div>
-                  <div
-                    v-show="contact.email"
-                    class="homeContacts_cardContainerDetails_detailContainer"
-                  >
-                    <div
-                      class="
-                        homeContacts_cardContainerDetails_detailContainerPrefix
-                      "
-                    >
-                      Email:
-                    </div>
-                    <div
-                      class="
-                        homeContacts_cardContainerDetails_detailContainerDetail
-                      "
-                    >
-                      {{ contact.email }}
-                    </div>
-                  </div>
+                <div class="homeContacts_cardContainerRight">
+                  <RightArrowIcon
+                    class="homeContacts_cardContainerRight_icon"
+                  />
                 </div>
               </div>
-
-              <div class="homeContacts_cardContainerRight">
-                <RightArrowIcon class="homeContacts_cardContainerRight_icon" />
-              </div>
-            </div>
-          </Card></div
+            </Card>
+          </router-link></div
       ></Collapse>
     </div>
   </Layout>
@@ -92,6 +101,8 @@
   grid-gap: 1rem;
   & .homeContacts_card {
     display: flex;
+    width: 100%;
+    height: max-content;
 
     align-items: center;
     & .homeContacts_cardContainer {
@@ -147,6 +158,7 @@
 import Layout from "@/components/Layout.vue";
 import Collapse from "@/components/Collapse.vue";
 
+import slug from "slug";
 import { alphabet, IUser, users } from "@/datas";
 import Card from "@/components/Card.vue";
 import Avatar from "@/components/Avatar.vue";
