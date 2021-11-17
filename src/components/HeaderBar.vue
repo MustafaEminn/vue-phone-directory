@@ -54,7 +54,7 @@
 </style>
 
 <script setup lang="ts">
-import { defineProps, defineExpose } from "vue";
+import { defineProps } from "vue";
 import classNames from "classnames";
 import LeftArrowIcon from "./icons/LeftArrowIcon.vue";
 import SearchIcon from "./icons/SearchIcon.vue";
@@ -66,9 +66,4 @@ interface IHeaderBarProps {
 }
 
 const props = defineProps<IHeaderBarProps>();
-
-defineExpose({
-  props,
-  classNames,
-});
 </script>
