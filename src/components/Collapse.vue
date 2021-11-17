@@ -61,10 +61,12 @@
     box-shadow: var(--box-shadow-1);
     padding: 1rem;
     border: 1px solid var(--lightgray-3);
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s;
+    max-height: 500px;
+    overflow-y: auto;
     &.collapseContainer_contentHide {
       padding: 0 1rem;
-      height: 0px;
+      max-height: 0;
     }
   }
 }
