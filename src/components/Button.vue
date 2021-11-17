@@ -4,20 +4,20 @@
       class="buttonContainer_button"
       :class="
         classNames({
-          buttonContainer_buttonDefault:
-            props.type === 'default' || !props.type,
-          buttonContainer_buttonPrimary: props.type === 'primary',
-          buttonContainer_buttonError: props.type === 'error',
-          buttonContainer_buttonSuccess: props.type === 'success',
-          buttonContainer_buttonCircleBorder: props.circleBorder,
-          buttonContainer_buttonNoBorder: !props.border,
+          buttonContainer_buttonDefault: type === 'default' || !type,
+          buttonContainer_buttonPrimary: type === 'primary',
+          buttonContainer_buttonError: type === 'error',
+          buttonContainer_buttonSuccess: type === 'success',
+          buttonContainer_buttonCircleBorder:
+            circleBorder === undefined ? true : circleBorder,
+          buttonContainer_buttonBorder: border,
         })
       "
-      :disabled="props.disabled || props.loading"
-      @click="props.onClick"
+      :disabled="disabled || loading"
+      @click="onClick"
     >
       <div
-        v-if="!props.loading"
+        v-if="!loading"
         :class="classNames({
             buttonContainer_buttonIcon: (this as any).$slots.icon,
             buttonContainer_buttonIconRightSpace: (this as any).$slots.default,
@@ -33,9 +33,7 @@
       })"
       >
         <circle-spin
-          :type="
-            props.type === 'default' || !props.type ? 'primary' : 'default'
-          "
+          :type="type === 'default' || !type ? 'primary' : 'default'"
         />
       </div>
       <slot />
@@ -121,7 +119,7 @@
     border-radius: 50%;
   }
 
-  & .buttonContainer_buttonNoBorder {
+  & .buttonContainer_buttonBorder {
     border: none !important;
   }
 }
@@ -141,5 +139,5 @@ interface IButtonProps {
   border?: boolean;
 }
 
-const props = defineProps<IButtonProps>();
+defineProps<IButtonProps>();
 </script>
