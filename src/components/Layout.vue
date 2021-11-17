@@ -4,7 +4,10 @@
       {{ header }}
     </div>
     <div class="layoutContainer_headerBar">
-      <HeaderBar :show-back-button="showBackButton" />
+      <HeaderBar
+        :show-back-button="showBackButton"
+        :show-search-bar="showSearchBar"
+      />
     </div>
     <slot />
   </div>
@@ -17,6 +20,7 @@ import HeaderBar from "./HeaderBar.vue";
 interface IProps {
   header: string;
   showBackButton?: boolean;
+  showSearchBar?: boolean;
 }
 defineProps<IProps>();
 </script>
