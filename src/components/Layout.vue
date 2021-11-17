@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineExpose } from "vue";
+import { defineProps } from "vue";
 import HeaderBar from "./HeaderBar.vue";
 
 interface IProps {
@@ -19,10 +19,6 @@ interface IProps {
   showBackButton?: boolean;
 }
 const props = defineProps<IProps>();
-
-defineExpose({
-  props,
-});
 </script>
 
 <style lang="scss">
