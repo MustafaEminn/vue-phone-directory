@@ -11,6 +11,7 @@
     </div>
     <div
       class="headerBarContainer_search"
+      v-show="showSearchBar === undefined ? true : showSearchBar"
       :class="
         classNames({
           headerBarContainer_searchLeftPadding: !showBackButton,
@@ -63,6 +64,7 @@ import TextInput from "./TextInput.vue";
 
 interface IHeaderBarProps {
   showBackButton?: boolean;
+  showSearchBar?: boolean;
 }
 
 const props = defineProps<IHeaderBarProps>();
