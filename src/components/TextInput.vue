@@ -85,7 +85,7 @@
     position: relative;
     & .textInputContainer_subContainer_input {
       border: 2px solid var(--lightgray-3);
-      height: 1.875rem;
+      height: 2.5rem;
       padding: 0 0.4rem;
       font-size: var(--span);
       width: 12.5rem;
@@ -125,7 +125,7 @@
 </style>
 
 <script setup lang="ts">
-import { defineProps, defineExpose, ref } from "vue";
+import { defineProps, ref } from "vue";
 import classNames from "classnames";
 
 const isInputFocused = ref<boolean>(false);
@@ -147,11 +147,4 @@ interface ITextInputProps {
   rounded?: boolean;
 }
 const props = defineProps<ITextInputProps>();
-
-defineExpose({
-  props,
-  classNames,
-  isInputFocused,
-  inputFocusToggle,
-});
 </script>
