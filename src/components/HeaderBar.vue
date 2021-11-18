@@ -18,7 +18,13 @@
         })
       "
     >
-      <TextInput placeholder="Search..." :full-width="true" :rounded="true">
+      <TextInput
+        name="search"
+        placeholder="Search..."
+        :full-width="true"
+        :rounded="true"
+        :on-change="onSearchChange"
+      >
         <template #icon>
           <SearchIcon class="headerBarContainer_searchIcon"
         /></template>
@@ -65,6 +71,7 @@ import TextInput from "./TextInput.vue";
 interface IHeaderBarProps {
   showBackButton?: boolean;
   showSearchBar?: boolean;
+  onSearchChange?: (e?: Event) => void;
 }
 
 const props = defineProps<IHeaderBarProps>();
