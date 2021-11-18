@@ -7,6 +7,7 @@
       <HeaderBar
         :show-back-button="showBackButton"
         :show-search-bar="showSearchBar"
+        :on-search-change="onSearchChange"
       />
     </div>
     <slot />
@@ -17,12 +18,13 @@
 import { defineProps } from "vue";
 import HeaderBar from "./HeaderBar.vue";
 
-interface IProps {
+interface ILayoutProps {
   header: string;
   showBackButton?: boolean;
   showSearchBar?: boolean;
+  onSearchChange?: (e?: Event) => void;
 }
-defineProps<IProps>();
+defineProps<ILayoutProps>();
 </script>
 
 <style lang="scss">
