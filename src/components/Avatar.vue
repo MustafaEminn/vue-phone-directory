@@ -48,7 +48,7 @@
 </style>
 
 <script lang="ts" setup>
-import { defineProps, onBeforeMount, ref } from "vue";
+import { defineProps, onBeforeMount, ref, watchEffect } from "vue";
 import classNames from "classnames";
 
 interface IAvatarProps {
@@ -62,6 +62,12 @@ const props = defineProps<IAvatarProps>();
 const avatarText = ref<string>("");
 
 onBeforeMount(() => {
+  avatarText.value = `${props.firstName.charAt(0)}${props.lastName.charAt(
+    0
+  )}`.toUpperCase();
+});
+
+watchEffect(() => {
   avatarText.value = `${props.firstName.charAt(0)}${props.lastName.charAt(
     0
   )}`.toUpperCase();
