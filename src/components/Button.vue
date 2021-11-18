@@ -8,11 +8,11 @@
           buttonContainer_buttonPrimary: type === 'primary',
           buttonContainer_buttonError: type === 'error',
           buttonContainer_buttonSuccess: type === 'success',
-          buttonContainer_buttonCircleBorder:
-            circleBorder === undefined ? true : circleBorder,
-          buttonContainer_buttonBorder: border,
+          buttonContainer_buttonCircleBorder: circleBorder,
+          buttonContainer_buttonNoBorder: withoutBorder,
         })
       "
+      :type="htmlType"
       :disabled="disabled || loading"
       @click="onClick"
     >
@@ -20,7 +20,7 @@
         v-if="!loading"
         :class="classNames({
             buttonContainer_buttonIcon: (this as any).$slots.icon,
-            buttonContainer_buttonIconRightSpace: (this as any).$slots.default,
+            buttonContainer_buttonIconRightSpace: (this as any).$slots.default && (this as any).$slots.icon,
       })"
       >
         <slot name="icon" />
@@ -119,7 +119,7 @@
     border-radius: 50%;
   }
 
-  & .buttonContainer_buttonBorder {
+  & .buttonContainer_buttonNoBorder {
     border: none !important;
   }
 }
@@ -136,7 +136,8 @@ interface IButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   circleBorder?: boolean;
-  border?: boolean;
+  withoutBorder?: boolean;
+  htmlType?: "button" | "submit" | "reset";
 }
 
 defineProps<IButtonProps>();
