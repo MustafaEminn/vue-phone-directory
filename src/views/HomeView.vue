@@ -159,12 +159,16 @@ import Layout from "@/components/Layout.vue";
 import Collapse from "@/components/Collapse.vue";
 
 import slug from "slug";
-import { alphabet, IUser, users } from "@/datas";
+import { IUser, alphabet } from "@/datas";
 import Card from "@/components/Card.vue";
 import Avatar from "@/components/Avatar.vue";
 import RightArrowIcon from "@/components/icons/RightArrowIcon.vue";
+import { ref } from "@vue/reactivity";
+
+const contacts = ref<IUser[]>();
 
 const getContactsStartsWith = (letter: string): IUser[] => {
+  const users: IUser[] = JSON.parse(localStorage.contacts);
   return users.filter((item) =>
     item.firstName.toLowerCase().startsWith(letter.toLowerCase())
   );
