@@ -2,7 +2,7 @@
   <div class="headerBarContainer">
     <div class="headerBarContainer_backButton">
       <router-link v-show="showBackButton" to="/">
-        <Button :circle-border="true" :border="false" :disabled="false">
+        <Button :without-border="true" :disabled="false">
           <template #icon>
             <LeftArrowIcon class="headerBarContainer_backButtonIcon"
           /></template>
