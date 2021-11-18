@@ -39,13 +39,22 @@
             textInputContainer_subContainer_inputHasIcon: (this as any).$slots.icon,
           })
         "
+        :value="value"
         :name="name"
         :type="type"
         :placeholder="placeholder"
         :disabled="disabled"
-        @change="onChange"
+        @input="(e) => {
+          value = (e.target as HTMLInputElement).value;
+          if(onChange){
+onChange(e);
+          }
+          
+   
+        }"
         @focus="inputFocusToggle()"
         @blur="inputFocusToggle()"
+        :required="required"
       />
     </div>
   </div>
@@ -71,7 +80,7 @@
     flex-direction: column;
 
     & .textInputContainer_label {
-      margin-bottom: 10px;
+      margin: 0.7rem 0;
     }
   }
 
@@ -136,15 +145,18 @@ const inputFocusToggle = (): void => {
 
 interface ITextInputProps {
   label?: string;
-  name?: string;
+  name: string;
   type?: string;
   placeholder?: string;
-  value?: string;
   disabled?: boolean;
   onChange?: (event?: Event) => void;
   direction?: "vertical" | "horizontal";
   fullWidth?: boolean;
   rounded?: boolean;
+  required?: boolean;
+  defaultValue?: string | undefined;
 }
 const props = defineProps<ITextInputProps>();
+
+const value = ref<string>(props.defaultValue || "");
 </script>
