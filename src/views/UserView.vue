@@ -4,7 +4,11 @@
     :show-back-button="true"
     :show-search-bar="false"
   >
-    <Modal :on-close="onEditModalClose" :visible="editModalVisible">
+    <Modal
+      title="Edit Contact"
+      :on-close="onEditModalClose"
+      :visible="editModalVisible"
+    >
       <form @keydown="onFormKeyDown" ref="formEl" @submit="onSaveEditModal">
         <TextInput
           full-width
