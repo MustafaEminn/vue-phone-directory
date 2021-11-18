@@ -32,6 +32,7 @@ defineProps<IProps>();
   flex-direction: column;
   max-width: 1396px;
   margin: 0 auto;
+  overflow-x: hidden;
 
   & .layoutContainer_header {
     border: 2px solid var(--lightgray);
