@@ -57,6 +57,10 @@
 
     & .modalContainer_headerTitle {
       flex: 1;
+      font-size: var(--h6);
+      padding-left: 0.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     & .modalContainer_headerClose {
