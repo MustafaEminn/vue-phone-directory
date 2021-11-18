@@ -1,9 +1,95 @@
 <template>
-  <Layout header="Directory">
+  <Layout
+    :on-search-change="onSearch"
+    :show-search-bar="true"
+    header="Directory"
+  >
+    <Modal
+      title="Add Contact"
+      :on-close="onAddContactModalClose"
+      :visible="addContactModalVisible"
+    >
+      <form @keydown="onFormKeyDown" ref="formEl" @submit="onAddContact">
+        <TextInput
+          full-width
+          direction="vertical"
+          placeholder="First Name"
+          label="First Name"
+          required
+          :default-value="addFormValues.firstName"
+          name="firstName"
+          :on-change="
+          (e:Event) => {
+            addFormValues.firstName = (e?.target as HTMLInputElement).value;
+          }
+        "
+        />
+        <TextInput
+          full-width
+          direction="vertical"
+          placeholder="Last Name"
+          label="Last Name"
+          required
+          :default-value="addFormValues.lastName"
+          name="lastName"
+          :on-change="
+          (e:Event) => {
+            addFormValues.lastName = (e?.target as HTMLInputElement).value;
+          }
+        "
+        />
+        <TextInput
+          full-width
+          direction="vertical"
+          placeholder="Email"
+          label="Email"
+          :default-value="addFormValues.email"
+          name="email"
+          :on-change="
+          (e:Event) => {
+            addFormValues.email = (e?.target as HTMLInputElement).value;
+          }
+        "
+        />
+        <TextInput
+          full-width
+          direction="vertical"
+          placeholder="Phone"
+          label="Phone"
+          required
+          name="phone"
+          :default-value="addFormValues.phoneNumber"
+          :on-change="
+          (e:Event) => {
+            addFormValues.phoneNumber = (e?.target as HTMLInputElement).value;
+          }
+        "
+        />
+      </form>
+      <template #footer>
+        <div class="addContactModal_footer">
+          <Button
+            type="primary"
+            :disabled="
+              addFormValues.firstName.length === 0 ||
+              addFormValues.lastName.length === 0 ||
+              addFormValues.phoneNumber.length === 0
+            "
+            html-type="submit"
+            @click="onAddContact"
+          >
+            Save
+          </Button>
+        </div>
+      </template>
+    </Modal>
+    <div class="homeHeader">
+      <Button @click="onAddContactModalOpen" type="success">Add Contact</Button>
+    </div>
     <div
+      v-show="searchInputValue.length === 0"
       v-for="(letter, index) in alphabet"
       :key="index"
-      :class="'homeContacts_' + letter"
     >
       <Collapse :title="letter.toUpperCase()">
         <div class="homeContacts_cardsContainer">
@@ -84,11 +170,96 @@
           </router-link></div
       ></Collapse>
     </div>
+    <div v-show="searchInputValue.length !== 0" class="">
+      <div class="homeContacts_cardsContainer">
+        <router-link
+          class="homeContacts_card"
+          v-for="(contact, index) in contacts"
+          :key="index"
+          :to="
+            '/' +
+            slug(`${contact.firstName}${contact.lastName}`) +
+            '/' +
+            contact.id
+          "
+        >
+          <Card :full-width="true">
+            <div class="homeContacts_cardContainer">
+              <div class="homeContacts_cardContainerLeft">
+                <div class="homeContacts_cardContainerHeader">
+                  <div class="homeContacts_cardContainerAvatar">
+                    <Avatar
+                      :first-name="contact.firstName"
+                      :last-name="contact.lastName"
+                    />
+                  </div>
+                  <div class="homeContacts_cardContainerName">
+                    {{ contact.firstName }} {{ contact.lastName }}
+                  </div>
+                </div>
+
+                <div class="homeContacts_cardContainerDetails">
+                  <div
+                    class="homeContacts_cardContainerDetails_detailContainer"
+                  >
+                    <div
+                      class="
+                        homeContacts_cardContainerDetails_detailContainerPrefix
+                      "
+                    >
+                      Phone:
+                    </div>
+                    <div
+                      class="
+                        homeContacts_cardContainerDetails_detailContainerDetail
+                      "
+                    >
+                      {{ contact.phoneNumber }}
+                    </div>
+                  </div>
+                  <div
+                    v-show="contact.email"
+                    class="homeContacts_cardContainerDetails_detailContainer"
+                  >
+                    <div
+                      class="
+                        homeContacts_cardContainerDetails_detailContainerPrefix
+                      "
+                    >
+                      Email:
+                    </div>
+                    <div
+                      class="
+                        homeContacts_cardContainerDetails_detailContainerDetail
+                      "
+                    >
+                      {{ contact.email }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="homeContacts_cardContainerRight">
+                <RightArrowIcon class="homeContacts_cardContainerRight_icon" />
+              </div>
+            </div>
+          </Card>
+        </router-link>
+      </div>
+    </div>
   </Layout>
 </template>
 
 <style lang="scss">
 @import "../styles/base/mediaQueries.scss";
+
+.homeHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0.7rem 0;
+}
+
 .homeContacts_cardsContainer {
   display: grid;
 
@@ -152,6 +323,11 @@
     }
   }
 }
+
+.addContactModal_footer {
+  display: flex;
+  justify-content: flex-end;
+}
 </style>
 
 <script setup lang="ts">
@@ -163,14 +339,88 @@ import { IUser, alphabet } from "@/datas";
 import Card from "@/components/Card.vue";
 import Avatar from "@/components/Avatar.vue";
 import RightArrowIcon from "@/components/icons/RightArrowIcon.vue";
-import { ref } from "@vue/reactivity";
+import Button from "@/components/Button.vue";
+import { reactive, ref } from "@vue/reactivity";
+import Modal from "@/components/Modal.vue";
+import TextInput from "@/components/TextInput.vue";
 
 const contacts = ref<IUser[]>();
+const formEl = ref<HTMLFormElement>();
+const searchInputValue = ref<string>("");
 
 const getContactsStartsWith = (letter: string): IUser[] => {
   const users: IUser[] = JSON.parse(localStorage.contacts);
   return users.filter((item) =>
     item.firstName.toLowerCase().startsWith(letter.toLowerCase())
   );
+};
+
+interface IAddFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+}
+
+const addFormValues = reactive<IAddFormValues>({
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  email: "",
+});
+
+const addContactModalVisible = ref<boolean>(false);
+
+const onAddContact = () => {
+  const newContacts = JSON.parse(localStorage.contacts);
+
+  const newContact: IUser = {
+    id: newContacts.length + Math.floor(Math.random() * 100),
+    firstName: addFormValues.firstName,
+    lastName: addFormValues.lastName,
+    email: addFormValues.email,
+    phoneNumber: addFormValues.phoneNumber,
+  };
+
+  newContacts.push(newContact);
+  contacts.value = newContacts;
+  onAddContactModalClose();
+  addFormValues.email = "";
+  addFormValues.firstName = "";
+  addFormValues.lastName = "";
+  addFormValues.phoneNumber = "";
+  localStorage.contacts = JSON.stringify(newContacts);
+};
+
+const onAddContactModalOpen = (): void => {
+  addContactModalVisible.value = true;
+};
+const onAddContactModalClose = (): void => {
+  addContactModalVisible.value = false;
+};
+
+const onFormKeyDown = (e: KeyboardEvent) => {
+  if (e.key === "Enter") {
+    formEl.value?.requestSubmit();
+  }
+};
+
+// Search
+const onSearch = (e?: Event) => {
+  const searchValue = (e.target as HTMLInputElement).value;
+  searchInputValue.value = searchValue;
+  const pureContacts = JSON.parse(localStorage.contacts);
+
+  if (searchValue.length === 0) {
+    contacts.value = JSON.parse(localStorage.contacts);
+    return;
+  }
+
+  const filteredContacts = pureContacts.filter(
+    (item: IUser) =>
+      item.firstName.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      item.lastName.toLowerCase().startsWith(searchValue.toLowerCase())
+  );
+  contacts.value = filteredContacts;
 };
 </script>
