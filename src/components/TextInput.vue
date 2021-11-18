@@ -47,7 +47,7 @@
         @input="(e) => {
           value = (e.target as HTMLInputElement).value;
           if(onChange){
-onChange(e);
+            onChange(e);
           }
           
    
@@ -134,7 +134,7 @@ onChange(e);
 </style>
 
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
+import { defineProps, ref, watchEffect } from "vue";
 import classNames from "classnames";
 
 const isInputFocused = ref<boolean>(false);
@@ -159,4 +159,8 @@ interface ITextInputProps {
 const props = defineProps<ITextInputProps>();
 
 const value = ref<string>(props.defaultValue || "");
+
+watchEffect(() => {
+  value.value = props.defaultValue || "";
+});
 </script>
