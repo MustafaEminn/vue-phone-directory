@@ -10,7 +10,11 @@ body {
   --lightgray-2: #d9d9d9;
   --lightgray-3: #e6e5e5;
 
+  --darkgray: #8c8c8c;
+
   --dark-green: #02922d;
+
+  --black-opacity: rgba(0, 0, 0, 0.5);
 }
 
 body.dark {
@@ -26,5 +30,8 @@ body.dark {
   --lightgray-3: #eeeeee;
   --lightgray-3: #e6e5e5;
 
+  --darkgray: #8c8c8c;
+
   --dark-green: #02922d;
+  --black-opacity: rgba(0, 0, 0, 0.5);
 }
