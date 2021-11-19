@@ -19,10 +19,10 @@
           :default-value="addFormValues.firstName"
           name="firstName"
           :on-change="
-          (e:Event) => {
-            addFormValues.firstName = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onAddContactFormFieldChange(e, 'firstName');
+            }
+          "
         />
         <TextInput
           full-width
@@ -33,10 +33,10 @@
           :default-value="addFormValues.lastName"
           name="lastName"
           :on-change="
-          (e:Event) => {
-            addFormValues.lastName = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onAddContactFormFieldChange(e, 'lastName');
+            }
+          "
         />
         <TextInput
           full-width
@@ -46,10 +46,10 @@
           :default-value="addFormValues.email"
           name="email"
           :on-change="
-          (e:Event) => {
-            addFormValues.email = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onAddContactFormFieldChange(e, 'email');
+            }
+          "
         />
         <TextInput
           full-width
@@ -60,10 +60,10 @@
           name="phone"
           :default-value="addFormValues.phoneNumber"
           :on-change="
-          (e:Event) => {
-            addFormValues.phoneNumber = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onAddContactFormFieldChange(e, 'phoneNumber');
+            }
+          "
         />
       </form>
       <template #footer>
@@ -78,13 +78,18 @@
             html-type="submit"
             @click="onAddContact"
           >
+            <template #icon>
+              <SaveIcon />
+            </template>
             Save
           </Button>
         </div>
       </template>
     </Modal>
     <div class="homeHeader">
-      <Button @click="onAddContactModalOpen" type="success">Add Contact</Button>
+      <Button @click="onAddContactModalOpen" type="success"
+        ><template #icon><PlusIcon /> </template> Add Contact</Button
+      >
     </div>
     <div
       v-show="searchInputValue.length === 0"
@@ -331,17 +336,26 @@
 </style>
 
 <script setup lang="ts">
+// @ts-ignore
 import Layout from "@/components/Layout.vue";
+// @ts-ignore
 import Collapse from "@/components/Collapse.vue";
 
 import slug from "slug";
 import { IUser, alphabet } from "@/datas";
+// @ts-ignore
 import Card from "@/components/Card.vue";
+// @ts-ignore
 import Avatar from "@/components/Avatar.vue";
 import RightArrowIcon from "@/components/icons/RightArrowIcon.vue";
+import PlusIcon from "@/components/icons/PlusIcon.vue";
+import SaveIcon from "@/components/icons/SaveIcon.vue";
+// @ts-ignore
 import Button from "@/components/Button.vue";
 import { reactive, ref } from "@vue/reactivity";
+// @ts-ignore
 import Modal from "@/components/Modal.vue";
+// @ts-ignore
 import TextInput from "@/components/TextInput.vue";
 
 const contacts = ref<IUser[]>();
@@ -370,6 +384,13 @@ const addFormValues = reactive<IAddFormValues>({
 });
 
 const addContactModalVisible = ref<boolean>(false);
+
+const onAddContactFormFieldChange = (
+  e: Event,
+  fieldName: "firstName" | "lastName" | "email" | "phoneNumber"
+) => {
+  addFormValues[fieldName] = (e.target as HTMLInputElement).value;
+};
 
 const onAddContact = () => {
   const newContacts = JSON.parse(localStorage.contacts);
@@ -419,7 +440,9 @@ const onSearch = (e?: Event) => {
   const filteredContacts = pureContacts.filter(
     (item: IUser) =>
       item.firstName.toLowerCase().startsWith(searchValue.toLowerCase()) ||
-      item.lastName.toLowerCase().startsWith(searchValue.toLowerCase())
+      item.lastName.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      item.phoneNumber.replaceAll(" ", "").includes(searchValue) ||
+      item.phoneNumber.includes(searchValue)
   );
   contacts.value = filteredContacts;
 };
