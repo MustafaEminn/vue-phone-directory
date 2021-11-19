@@ -1,11 +1,9 @@
 <template>
   <div
     class="avatarContainer"
-    :class="
-      classNames({
-        avatarContainerLarge: size === 'large',
-      })
-    "
+    :class="{
+      avatarContainerLarge: size === 'large',
+    }"
   >
     <div class="avatarContainer_firstLetter">
       {{ avatarText[0] }}
@@ -49,7 +47,6 @@
 
 <script lang="ts" setup>
 import { defineProps, onBeforeMount, ref, watchEffect } from "vue";
-import classNames from "classnames";
 
 interface IAvatarProps {
   firstName: string;

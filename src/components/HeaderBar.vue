@@ -12,11 +12,9 @@
     <div
       class="headerBarContainer_search"
       v-show="showSearchBar === undefined ? true : showSearchBar"
-      :class="
-        classNames({
-          headerBarContainer_searchLeftPadding: !showBackButton,
-        })
-      "
+      :class="{
+        headerBarContainer_searchLeftPadding: !showBackButton,
+      }"
     >
       <TextInput
         name="search"
@@ -62,10 +60,11 @@
 
 <script setup lang="ts">
 import { defineProps } from "vue";
-import classNames from "classnames";
 import LeftArrowIcon from "./icons/LeftArrowIcon.vue";
 import SearchIcon from "./icons/SearchIcon.vue";
+// @ts-ignore
 import Button from "./Button.vue";
+// @ts-ignore
 import TextInput from "./TextInput.vue";
 
 interface IHeaderBarProps {

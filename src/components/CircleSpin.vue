@@ -1,14 +1,12 @@
 <template>
   <div
     class="circleSpin"
-    :class="
-      classNames({
-        circleSpin_primary: type === 'primary',
-        circleSpin_error: type === 'error',
-        circleSpin_success: type === 'success',
-        circleSpin_default: type === 'default' || !type,
-      })
-    "
+    :class="{
+      circleSpin_primary: type === 'primary',
+      circleSpin_error: type === 'error',
+      circleSpin_success: type === 'success',
+      circleSpin_default: type === 'default' || !type,
+    }"
   ></div>
 </template>
 
@@ -55,7 +53,6 @@
 
 <script setup lang="ts">
 import { defineProps } from "vue";
-import classNames from "classnames";
 
 interface ICircleSpin {
   type?: "primary" | "error" | "success" | "default";

@@ -1,11 +1,9 @@
 <template>
   <div
     class="cardContainer"
-    :class="
-      classNames({
-        cardContainerFullWidth: fullWidth,
-      })
-    "
+    :class="{
+      cardContainerFullWidth: fullWidth,
+    }"
   >
     <slot />
   </div>
@@ -27,7 +25,6 @@
 
 <script lang="ts" setup>
 import { defineProps } from "vue";
-import classNames from "classnames";
 
 interface ICardProps {
   fullWidth?: boolean;

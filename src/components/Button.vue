@@ -2,35 +2,33 @@
   <div class="buttonContainer">
     <button
       class="buttonContainer_button"
-      :class="
-        classNames({
-          buttonContainer_buttonDefault: type === 'default' || !type,
-          buttonContainer_buttonPrimary: type === 'primary',
-          buttonContainer_buttonError: type === 'error',
-          buttonContainer_buttonSuccess: type === 'success',
-          buttonContainer_buttonCircleBorder: circleBorder,
-          buttonContainer_buttonNoBorder: withoutBorder,
-        })
-      "
+      :class="{
+        buttonContainer_buttonDefault: type === 'default' || !type,
+        buttonContainer_buttonPrimary: type === 'primary',
+        buttonContainer_buttonError: type === 'error',
+        buttonContainer_buttonSuccess: type === 'success',
+        buttonContainer_buttonCircleBorder: circleBorder,
+        buttonContainer_buttonNoBorder: withoutBorder,
+      }"
       :type="htmlType"
       :disabled="disabled || loading"
       @click="onClick"
     >
       <div
         v-if="!loading"
-        :class="classNames({
-            buttonContainer_buttonIcon: (this as any).$slots.icon,
-            buttonContainer_buttonIconRightSpace: (this as any).$slots.default && (this as any).$slots.icon,
-      })"
+        :class="{
+          buttonContainer_buttonIcon: slots.icon,
+          buttonContainer_buttonIconRightSpace: slots.default && slots.icon,
+        }"
       >
         <slot name="icon" />
       </div>
       <div
         v-else
         class="buttonContainer_buttonIcon"
-        :class="classNames({
-             buttonContainer_buttonIconRightSpace: (this as any).$slots.default,
-      })"
+        :class="{
+          buttonContainer_buttonIconRightSpace: slots.default,
+        }"
       >
         <circle-spin
           :type="type === 'default' || !type ? 'primary' : 'default'"
@@ -126,8 +124,8 @@
 </style>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
-import classNames from "classnames";
+import { defineProps, useSlots } from "vue";
+// @ts-ignore
 import CircleSpin from "./CircleSpin.vue";
 
 interface IButtonProps {
@@ -139,6 +137,8 @@ interface IButtonProps {
   withoutBorder?: boolean;
   htmlType?: "button" | "submit" | "reset";
 }
+
+const slots = useSlots();
 
 defineProps<IButtonProps>();
 </script>

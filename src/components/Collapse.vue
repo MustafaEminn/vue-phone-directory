@@ -16,11 +16,9 @@
 
     <div
       class="collapseContainer_content"
-      :class="
-        classNames({
-          collapseContainer_contentHide: !isCollapsed,
-        })
-      "
+      :class="{
+        collapseContainer_contentHide: !isCollapsed,
+      }"
     >
       <slot />
     </div>
@@ -74,7 +72,6 @@
 
 <script setup lang="ts">
 import { defineProps, ref } from "vue";
-import classNames from "classnames";
 import UpArrowIcon from "./icons/UpArrowIcon.vue";
 import DownArrowIcon from "./icons/DownArrowIcon.vue";
 
