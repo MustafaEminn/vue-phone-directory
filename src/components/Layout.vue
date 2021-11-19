@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { defineProps } from "vue";
+// @ts-ignore
 import HeaderBar from "./HeaderBar.vue";
 
 interface ILayoutProps {
