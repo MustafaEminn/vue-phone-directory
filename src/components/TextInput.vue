@@ -1,57 +1,49 @@
 <template>
   <div
     class="textInputContainer"
-    :class="
-      classNames({
-        textInputContainer_directionH: direction === 'horizontal',
-        textInputContainer_directionV: direction === 'vertical',
-        textInputContainer_fullWidth: fullWidth,
-      })
-    "
+    :class="{
+      textInputContainer_directionH: direction === 'horizontal',
+      textInputContainer_directionV: direction === 'vertical',
+      textInputContainer_fullWidth: fullWidth,
+    }"
   >
     <label class="textInputContainer_label" v-if="label">{{ label }}</label>
     <div
       class="textInputContainer_subContainer"
-      :class="
-        classNames({
-          textInputContainer_subContainerFullWidth: fullWidth,
-        })
-      "
+      :class="{
+        textInputContainer_subContainerFullWidth: fullWidth,
+      }"
     >
       <div
         class="textInputContainer_subContainer_icon"
-        :class="
-          classNames({
-            textInputContainer_subContainer_iconFocus: isInputFocused,
-          })
-        "
-        v-show="(this as any).$slots.icon"
+        :class="{
+          textInputContainer_subContainer_iconFocus: isInputFocused,
+        }"
+        v-show="slots.icon"
       >
         <slot name="icon" />
       </div>
 
       <input
         class="textInputContainer_subContainer_input"
-        :class="
-          classNames({
-            textInputContainer_subContainer_inputFullWidth: fullWidth,
-            textInputContainer_subContainer_inputRounded: rounded,
-            textInputContainer_subContainer_inputHasIcon: (this as any).$slots.icon,
-          })
-        "
+        :class="{
+          textInputContainer_subContainer_inputFullWidth: fullWidth,
+          textInputContainer_subContainer_inputRounded: rounded,
+          textInputContainer_subContainer_inputHasIcon: slots.icon,
+        }"
         :value="value"
         :name="name"
         :type="type"
         :placeholder="placeholder"
         :disabled="disabled"
-        @input="(e) => {
-          value = (e.target as HTMLInputElement).value;
-          if(onChange){
-            onChange(e);
+        @input="
+          (e) => {
+            onInputChange(e);
+            if (onChange) {
+              onChange(e);
+            }
           }
-          
-   
-        }"
+        "
         @focus="inputFocusToggle()"
         @blur="inputFocusToggle()"
         :required="required"
@@ -134,8 +126,9 @@
 </style>
 
 <script setup lang="ts">
-import { defineProps, ref, watchEffect } from "vue";
-import classNames from "classnames";
+import { defineProps, ref, useSlots, watchEffect } from "vue";
+
+const slots = useSlots();
 
 const isInputFocused = ref<boolean>(false);
 
@@ -163,4 +156,8 @@ const value = ref<string>(props.defaultValue || "");
 watchEffect(() => {
   value.value = props.defaultValue || "";
 });
+
+const onInputChange = (e: Event) => {
+  value.value = (e.target as HTMLInputElement).value;
+};
 </script>
