@@ -14,7 +14,7 @@
       <div class="modalContainer_body">
         <slot />
       </div>
-      <div v-show="(this as any).$slots.footer" class="modalContainer_footer">
+      <div v-show="slots.footer" class="modalContainer_footer">
         <slot name="footer" />
       </div>
     </div>
@@ -91,8 +91,10 @@
 </style>
 
 <script lang="ts" setup>
-import { defineProps, onUnmounted, ref, toRefs, watch } from "vue";
+import { defineProps, onUnmounted, ref, toRefs, useSlots, watch } from "vue";
 import CloseIcon from "./icons/CloseIcon.vue";
+
+const slots = useSlots();
 
 const modalContainerEl = ref<HTMLDivElement>();
 
