@@ -67,8 +67,13 @@
     & .buttonContainer_buttonIcon {
       display: flex;
       align-content: center;
+
       & svg {
         width: 0.7rem;
+
+        & path {
+          fill: white;
+        }
       }
     }
 
@@ -79,16 +84,21 @@
 
   & .buttonContainer_buttonDefault {
     border: 1px solid var(--lightgray-2);
-    color: var(--black);
+
+    & svg path {
+      fill: var(--black) !important;
+    }
 
     &:hover {
       border: 1px solid var(--primary);
-      color: var(--primary);
+      & svg path {
+        fill: var(--primary) !important;
+      }
     }
   }
   & .buttonContainer_buttonPrimary {
     background: var(--primary);
-    color: var(--white);
+    color: white;
 
     &:hover {
       opacity: 0.8;
@@ -97,7 +107,7 @@
 
   & .buttonContainer_buttonError {
     background: var(--error);
-    color: var(--white);
+    color: white;
 
     &:hover {
       opacity: 0.8;
@@ -106,7 +116,7 @@
 
   & .buttonContainer_buttonSuccess {
     background: var(--success);
-    color: var(--white);
+    color: white;
 
     &:hover {
       opacity: 0.8;
