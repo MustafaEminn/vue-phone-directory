@@ -96,7 +96,7 @@
       v-for="(letter, index) in alphabet"
       :key="index"
     >
-      <Collapse :title="letter.toUpperCase()">
+      <Collapse :title="letter.toLocaleUpperCase('TR')">
         <div class="homeContacts_cardsContainer">
           <router-link
             class="homeContacts_card"
@@ -365,7 +365,9 @@ const searchInputValue = ref<string>("");
 const getContactsStartsWith = (letter: string): IUser[] => {
   const users: IUser[] = JSON.parse(localStorage.contacts);
   return users.filter((item) =>
-    item.firstName.toLowerCase().startsWith(letter.toLowerCase())
+    item.firstName
+      .toLocaleLowerCase("TR")
+      .startsWith(letter.toLocaleLowerCase("TR"))
   );
 };
 
