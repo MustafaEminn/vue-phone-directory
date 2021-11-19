@@ -19,10 +19,10 @@
           name="firstName"
           :default-value="contact?.firstName || ''"
           :on-change="
-          (e) => {
-            editFormValues.firstName = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onEditFormFieldChange(e, 'firstName');
+            }
+          "
         />
         <TextInput
           full-width
@@ -33,10 +33,10 @@
           name="lastName"
           :default-value="contact?.lastName || ''"
           :on-change="
-          (e) => {
-            editFormValues.lastName = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onEditFormFieldChange(e, 'lastName');
+            }
+          "
         />
         <TextInput
           full-width
@@ -46,10 +46,10 @@
           name="email"
           :default-value="contact?.email || ''"
           :on-change="
-          (e) => {
-            editFormValues.email = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onEditFormFieldChange(e, 'email');
+            }
+          "
         />
         <TextInput
           full-width
@@ -60,10 +60,10 @@
           name="phone"
           :default-value="contact?.phoneNumber || ''"
           :on-change="
-          (e) => {
-            editFormValues.phoneNumber = (e?.target as HTMLInputElement).value;
-          }
-        "
+            (e) => {
+              onEditFormFieldChange(e, 'phoneNumber');
+            }
+          "
         />
       </form>
       <template #footer>
@@ -78,6 +78,9 @@
             html-type="submit"
             @click="onSaveEditModal"
           >
+            <template #icon>
+              <SaveIcon />
+            </template>
             Save
           </Button>
         </div>
@@ -218,13 +221,20 @@
 </style>
 
 <script lang="ts" setup>
+// @ts-ignore
 import Layout from "@/components/Layout.vue";
+// @ts-ignore
 import Modal from "@/components/Modal.vue";
+// @ts-ignore
 import Card from "@/components/Card.vue";
+// @ts-ignore
 import Avatar from "@/components/Avatar.vue";
+// @ts-ignore
 import Button from "@/components/Button.vue";
 import TrashIcon from "@/components/icons/TrashIcon.vue";
 import PencilIcon from "@/components/icons/PencilIcon.vue";
+import SaveIcon from "@/components/icons/SaveIcon.vue";
+// @ts-ignore
 import TextInput from "@/components/TextInput.vue";
 import { IUser } from "@/datas";
 import { onBeforeMount, reactive, ref } from "vue";
@@ -277,6 +287,13 @@ const editFormValues = reactive<IEditFormValues>({
   phoneNumber: contact.value?.phoneNumber || "",
   email: contact.value?.email || "",
 });
+
+const onEditFormFieldChange = (
+  e: Event,
+  fieldName: "firstName" | "lastName" | "email" | "phoneNumber"
+) => {
+  editFormValues[fieldName] = (e.target as HTMLInputElement).value;
+};
 
 const onSaveEditModal = (e: Event | undefined) => {
   if (typeof e !== "undefined") {
