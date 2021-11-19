@@ -22,13 +22,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--white);
+
   border-radius: 9999px;
 
   & .avatarContainer_firstLetter {
+    color: #fff;
     font-size: var(--h5);
   }
   & .avatarContainer_secondLetter {
+    color: #fff;
     font-size: var(--h5);
   }
 
