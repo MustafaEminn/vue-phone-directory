@@ -35,7 +35,7 @@
 }
 
 .modalContainer {
-  background: var(--white);
+  background: var(--white-3);
   transition: all 0.2s;
   transform: scale(1);
   min-width: 50vw;
@@ -44,7 +44,6 @@
   max-width: 95vw;
   max-height: 95vh;
   &.modalContainer_hide {
-    background: pink;
     transform: scale(0);
   }
 
